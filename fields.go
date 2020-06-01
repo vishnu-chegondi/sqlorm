@@ -32,15 +32,19 @@ type Field struct {
 	Name         string
 	Type         string
 	DefaultValue interface{}
+	Required     bool
+	MaxValue     int
 }
 
 /*
 NewField Returns a field with
 */
-func NewField(Name string, FieldType string, DefaultValue interface{}) *Field {
+func NewField(Name string, FieldType string, DefaultValue interface{}, Required bool, MaxValue int) *Field {
 	field := new(Field)
 	field.Name = Name
 	field.Type = FieldType
+	field.Required = Required
+	field.MaxValue = MaxValue
 	field.DefaultValue = DefaultValue
 	return field
 }
@@ -101,4 +105,21 @@ func (field *Field) ValidDefaultValue() bool {
 		}
 	}
 	return true
+}
+
+/*
+GetColumnStmnt returns the statement required indicated by Field Passed depending on the driverName
+*/
+func (field *Field) GetColumnStmnt(driverName string) string {
+	var colStmnt string
+	if driverName == "mysql" {
+		colStmnt = fmt.Sprintf("%s %s", field.Name, field.Type)
+		if field.MaxValue != 0 {
+			colStmnt = fmt.Sprintf("%s %s(%d)", field.Name, field.Type, field.MaxValue)
+		}
+		if field.Required {
+			colStmnt += " NOT NULL"
+		}
+	}
+	return colStmnt
 }
