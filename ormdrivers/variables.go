@@ -8,8 +8,8 @@ var (
 	User             string            = "root"           // Username
 	Passwd           string            = "MYSQLpassword1" // Password (requires User)
 	Net              string            = "tcp"            // Network type
-	Addr             string            = "127.0.0.1:3306" // Network address (requires Net)
-	DBName           string            = "mysqlorm"       // Database name
+	Addr             string            = "localhost:3306" // Network address (requires Net)
+	DBName           string            = "sqlorm"       // Database name
 	Params           map[string]string                    // Connection parameters
 	Collation        string                               // Connection collation
 	Loc              *time.Location                       // Location for time.Time values

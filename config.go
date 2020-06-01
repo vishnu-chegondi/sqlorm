@@ -2,7 +2,7 @@ package sqlorm
 
 import (
 	"database/sql"
-	"github.com/vishnu-chegondi/sqlorm/ormdrivers"
+	"github.com/codeamenity/sqlorm/ormdrivers"
 )
 
 func GetDb(driverName string) *sql.DB {
