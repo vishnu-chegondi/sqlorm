@@ -7,10 +7,13 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/codeamenity/sqlorm/ormdrivers"
 )
 
 func TestMain(m *testing.M) {
 	msg := make(chan string)
+	ormdrivers.DBName = "mysqlorm"
 	db := GetDb("mysql")
 	defer db.Close()
 	ctx, cancel := context.WithTimeout(context.Background(), 300*time.Second)
@@ -18,7 +21,7 @@ func TestMain(m *testing.M) {
 	go DBPing(db, msg)
 	select {
 	case text := <-msg:
-		fmt.Print(text)
+		fmt.Println(text)
 		os.Exit(m.Run())
 	case <-ctx.Done():
 		ctx.Err()
@@ -35,4 +38,13 @@ func DBPing(db *sql.DB, msg chan string) {
 	} else {
 		msg <- "success"
 	}
+}
+
+func ExampleGetDb() {
+	ormdrivers.Addr = "localhost:3306"
+	db := GetDb("mysql")
+	err := db.Ping()
+	fmt.Println(err)
+	// Output:
+	// <nil>
 }

@@ -1,4 +1,4 @@
-module github.com/vishnu-chegondi/sqlorm
+module github.com/codeamenity/sqlorm
 
 go 1.14
 
