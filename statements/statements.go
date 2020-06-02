@@ -46,3 +46,11 @@ func RenameColumnStmnt(tableName string, driverName string) string {
 	}
 	return query
 }
+
+/*
+DropTableStmnt is used for generating a statment for droping a table in given database
+*/
+func DropTableStmnt(tableName string, driverName string) string {
+	query:= fmt.Sprintf("DROP TABLE %s", tableName)
+	return query
+}
