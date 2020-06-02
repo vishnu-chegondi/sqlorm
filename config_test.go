@@ -43,6 +43,7 @@ func DBPing(db *sql.DB, msg chan string) {
 func ExampleGetDb() {
 	ormdrivers.Addr = "localhost:3306"
 	db := GetDb("mysql")
+	defer db.Close()
 	err := db.Ping()
 	fmt.Println(err)
 	// Output:
