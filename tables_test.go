@@ -37,12 +37,22 @@ func ExampleRenameColumn() {
 	status, err := RenameColumn("mysql", table, column, "NewName")
 	fmt.Println(status, err)
 	// Output:
-	// false Cannot rename the column instead create new column and drop existing
+	// false Cannot rename the column instead use ChangeColumn
+}
+
+func ExampleChangeColumn() {
+	table := NewTable("TestTable")
+	column := NewField("OtherColumn", Float, 10.23, false, 0)
+	newcolumn := NewField("NewColumn", Double, 10.234, true, 0)
+	status, err := ChangeColumn("mysql", table, column, newcolumn)
+	fmt.Println(status, err)
+	// Output:
+	// true <nil>
 }
 
 func ExampleDropColumn()  {
 	table := NewTable("TestTable")
-	column := NewField("OtherColumn", Float, 10.23, false, 0)
+	column := NewField("NewColumn", Float, 10.23, false, 0)
 	status, err := DropColumn("mysql", table, column)
 	fmt.Println(status, err)
 	// Output:

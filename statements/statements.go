@@ -37,12 +37,23 @@ func DropColumnStmnt(tableName string, driverName string) string {
 }
 
 /*
-RenameColumnStmnt returns the query string for renaming the column
+RenameColumnStmnt returns the query string for renaming the column.
 */
 func RenameColumnStmnt(tableName string, driverName string) string {
 	query := ""
 	if driverName == "postgres"{
 		query = fmt.Sprintf("ALTER TABLE %s RENAME COLUMN", tableName)
+	}
+	return query
+}
+
+/*
+ChangeColumn returns the query string for changing a column along with the new name. 
+*/
+func ChangeColumnStmnt(tableName string, driverName string, oldName string, newColumn string) string {
+	query := ""
+	if driverName == "mysql"{
+		query = fmt.Sprintf("ALTER TABLE %s CHANGE COLUMN %s %s", tableName, oldName, newColumn)
 	}
 	return query
 }

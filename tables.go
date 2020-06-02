@@ -104,17 +104,33 @@ func DropColumn(driverName string, tb *Table, column *Field) (bool, error) {
 }
 
 /*
-RenameColumn is used for renaming column with out any data loss
+RenameColumn is used for renaming column with out any data loss. This is not supported on every database on every versions.
+
+Example: This only works on mysql 8.0
 */
 func RenameColumn(driverName string, tb *Table, column *Field, newName string) (bool, error) {
 	db := GetDb(driverName)
 	defer db.Close()
 	rename_column := statements.RenameColumnStmnt(tb.Name, driverName)
 	if rename_column == ""{
-		return false, errors.New("Cannot rename the column instead create new column and drop existing")
+		return false, errors.New("Cannot rename the column instead use ChangeColumn")
 	}
 	rename_column = fmt.Sprintf("%s %s TO %s", rename_column, column.Name, newName)
 	_, err := db.Query(rename_column)
+	if err!=nil{
+		return false, err
+	}
+	return true, nil
+}
+
+/*
+ChangeColumn is used for changing the column type definition and even name
+*/
+func ChangeColumn(driverName string, tb *Table, column *Field, newcolumn *Field) (bool, error) {
+	db := GetDb(driverName)
+	defer db.Close()
+	change_column := statements.ChangeColumnStmnt(tb.Name, driverName, column.Name, newcolumn.GetColumnStmnt(driverName))
+	_, err := db.Query(change_column)
 	if err!=nil{
 		return false, err
 	}
