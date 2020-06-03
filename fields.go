@@ -3,6 +3,8 @@ package sqlorm
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/codeamenity/sqlorm/ormdrivers"
 )
 
 var fieldTypes = []string{"VARCHAR", "TINYTEXT", "TEXT", "MEDIUMTEXT", "LONGTEXT", "TINYINT", "MEDIUMINT", "INT", "BIGINT", "FLOAT", "DOUBLE", "DECIMAL", "DATE", "DATETIME", "TIMESTAMP", "TIME", "ENUM", "BOOLEAN"}
@@ -29,11 +31,13 @@ const (
 )
 
 type Field struct {
-	Name         string
-	Type         string
-	DefaultValue interface{}
-	Required     bool
-	MaxValue     int
+	Name           string
+	Type           string
+	DefaultValue   interface{}
+	Required       bool
+	MaxValue       int
+	ForeignKey     bool
+	ReferenceTable *Table
 }
 
 /*
@@ -110,9 +114,9 @@ func (field *Field) ValidDefaultValue() bool {
 /*
 GetColumnStmnt returns the statement required indicated by Field Passed depending on the driverName
 */
-func (field *Field) GetColumnStmnt(driverName string) string {
+func (field *Field) GetColumnStmnt() string {
 	var colStmnt string
-	if driverName == "mysql" {
+	if ormdrivers.DriverName == "mysql" {
 		colStmnt = fmt.Sprintf("%s %s", field.Name, field.Type)
 		if field.MaxValue != 0 {
 			colStmnt = fmt.Sprintf("%s %s(%d)", field.Name, field.Type, field.MaxValue)
@@ -120,6 +124,20 @@ func (field *Field) GetColumnStmnt(driverName string) string {
 		if field.Required {
 			colStmnt += " NOT NULL"
 		}
+		if field.ForeignKey {
+			colStmnt += " " + field.GetForeingKeyStmnt()
+		}
 	}
 	return colStmnt
+}
+
+/*
+GetForeignKey returns the statement required for attaching foreignKey to the table
+*/
+func (field *Field) GetForeingKeyStmnt() string {
+	var foreignStmnt string
+	if ormdrivers.DriverName == "mysql" {
+		foreignStmnt = fmt.Sprintf("FOREIGN KEY REFERENCES %s(%s)", field.ReferenceTable.Name, field.ReferenceTable.PrimaryKey)
+	}
+	return foreignStmnt
 }

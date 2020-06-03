@@ -5,11 +5,12 @@ import (
 )
 
 var (
+	DriverName       string            = "mysql"
 	User             string            = "root"           // Username
 	Passwd           string            = "MYSQLpassword1" // Password (requires User)
 	Net              string            = "tcp"            // Network type
 	Addr             string            = "localhost:3306" // Network address (requires Net)
-	DBName           string            = "sqlorm"       // Database name
+	DBName           string            = "sqlorm"         // Database name
 	Params           map[string]string                    // Connection parameters
 	Collation        string                               // Connection collation
 	Loc              *time.Location                       // Location for time.Time values

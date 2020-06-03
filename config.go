@@ -5,10 +5,10 @@ import (
 	"github.com/codeamenity/sqlorm/ormdrivers"
 )
 
-func GetDb(driverName string) *sql.DB {
+func GetDb() *sql.DB {
 	var db *sql.DB
-	if driverName == "mysql" || driverName == "mariadb" {
-		connector, err := ormdrivers.GetConnector(driverName)
+	if ormdrivers.DriverName == "mysql" || ormdrivers.DriverName == "mariadb" {
+		connector, err := ormdrivers.GetConnector(ormdrivers.DriverName)
 		if err != nil {
 			panic(err.Error())
 		}
