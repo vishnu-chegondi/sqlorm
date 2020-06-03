@@ -29,11 +29,13 @@ const (
 )
 
 type Field struct {
-	Name         string
-	Type         string
-	DefaultValue interface{}
-	Required     bool
-	MaxValue     int
+	Name           string
+	Type           string
+	DefaultValue   interface{}
+	Required       bool
+	MaxValue       int
+	ForeignKey     bool
+	ReferenceTable *Table
 }
 
 /*
@@ -120,6 +122,20 @@ func (field *Field) GetColumnStmnt(driverName string) string {
 		if field.Required {
 			colStmnt += " NOT NULL"
 		}
+		if field.ForeignKey {
+			colStmnt += " "+field.GetForeingKeyStmnt(driverName)
+		}
 	}
 	return colStmnt
+}
+
+/*
+GetForeignKey returns the statement required for attaching foreignKey to the table
+*/
+func (field *Field) GetForeingKeyStmnt(driverName string) string {
+	var foreignStmnt string
+	if driverName == "mysql" {
+		foreignStmnt = fmt.Sprintf("FOREIGN KEY REFERENCES %s(%s)", field.ReferenceTable.Name, field.ReferenceTable.PrimaryKey)
+	}
+	return foreignStmnt
 }
