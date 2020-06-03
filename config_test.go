@@ -14,7 +14,7 @@ import (
 func TestMain(m *testing.M) {
 	msg := make(chan string)
 	ormdrivers.DBName = "mysqlorm"
-	db := GetDb("mysql")
+	db := GetDb()
 	defer db.Close()
 	ctx, cancel := context.WithTimeout(context.Background(), 300*time.Second)
 	defer cancel()
@@ -42,7 +42,7 @@ func DBPing(db *sql.DB, msg chan string) {
 
 func ExampleGetDb() {
 	ormdrivers.Addr = "localhost:3306"
-	db := GetDb("mysql")
+	db := GetDb()
 	defer db.Close()
 	err := db.Ping()
 	fmt.Println(err)

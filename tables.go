@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/codeamenity/sqlorm/ormdrivers"
 	"github.com/codeamenity/sqlorm/statements"
 )
 
@@ -37,14 +38,14 @@ func (tb *Table) getPrimaryStmnt() string {
 CreateTable is used for creating a table in the database.
 If no columns are provided then default Id(Column) as primary key is created
 */
-func CreateTable(driverName string, tb *Table) (bool, error) {
+func CreateTable(tb *Table) (bool, error) {
 	var colStmnt []string
-	db := GetDb(driverName)
+	db := GetDb()
 	defer db.Close()
-	create_query := statements.CreateTableStmnt(tb.Name, driverName)
+	create_query := statements.CreateTableStmnt(tb.Name, ormdrivers.DriverName)
 	for _, column := range tb.Columns {
 		if column.ValidType() && column.ValidDefaultValue() {
-			colStmnt = append(colStmnt, column.GetColumnStmnt(driverName))
+			colStmnt = append(colStmnt, column.GetColumnStmnt())
 		}
 	}
 	colStmnt = append(colStmnt, tb.getPrimaryStmnt())
@@ -60,10 +61,10 @@ func CreateTable(driverName string, tb *Table) (bool, error) {
 /*
 DropTable is used for dropping a table in the database.
 */
-func DropTable(driverName string, tb *Table) (bool, error) {
-	db := GetDb(driverName)
+func DropTable(tb *Table) (bool, error) {
+	db := GetDb()
 	defer db.Close()
-	drop_query := statements.DropTableStmnt(tb.Name, driverName)
+	drop_query := statements.DropTableStmnt(tb.Name, ormdrivers.DriverName)
 	_, err := db.Query(drop_query)
 	if err != nil {
 		return false, err
@@ -74,11 +75,11 @@ func DropTable(driverName string, tb *Table) (bool, error) {
 /*
 AddColumns is used for adding columns to existing tables with default values
 */
-func AddColumn(driverName string, tb *Table, column *Field) (bool, error) {
-	db := GetDb(driverName)
+func AddColumn(tb *Table, column *Field) (bool, error) {
+	db := GetDb()
 	defer db.Close()
-	add_column := statements.AddColumnStmnt(tb.Name, driverName)
-	add_column += " " + column.GetColumnStmnt(driverName)
+	add_column := statements.AddColumnStmnt(tb.Name, ormdrivers.DriverName)
+	add_column += " " + column.GetColumnStmnt()
 	_, err := db.Query(add_column)
 	if err != nil {
 		return false, err
@@ -89,10 +90,10 @@ func AddColumn(driverName string, tb *Table, column *Field) (bool, error) {
 /*
 DropColumn is used for removing columns in the table.
 */
-func DropColumn(driverName string, tb *Table, column *Field) (bool, error) {
-	db := GetDb(driverName)
+func DropColumn(tb *Table, column *Field) (bool, error) {
+	db := GetDb()
 	defer db.Close()
-	drop_column := statements.DropColumnStmnt(tb.Name, driverName)
+	drop_column := statements.DropColumnStmnt(tb.Name, ormdrivers.DriverName)
 	drop_column += " " + column.Name
 	_, err := db.Query(drop_column)
 	if err != nil {
@@ -106,10 +107,10 @@ RenameColumn is used for renaming column with out any data loss. This is not sup
 
 Example: This only works on mysql 8.0
 */
-func RenameColumn(driverName string, tb *Table, column *Field, newName string) (bool, error) {
-	db := GetDb(driverName)
+func RenameColumn(tb *Table, column *Field, newName string) (bool, error) {
+	db := GetDb()
 	defer db.Close()
-	rename_column := statements.RenameColumnStmnt(tb.Name, driverName)
+	rename_column := statements.RenameColumnStmnt(tb.Name, ormdrivers.DriverName)
 	if rename_column == "" {
 		return false, errors.New("Cannot rename the column instead use ChangeColumn")
 	}
@@ -124,10 +125,10 @@ func RenameColumn(driverName string, tb *Table, column *Field, newName string) (
 /*
 ChangeColumn is used for changing the column type definition and even name
 */
-func ChangeColumn(driverName string, tb *Table, column *Field, newcolumn *Field) (bool, error) {
-	db := GetDb(driverName)
+func ChangeColumn(tb *Table, column *Field, newcolumn *Field) (bool, error) {
+	db := GetDb()
 	defer db.Close()
-	change_column := statements.ChangeColumnStmnt(tb.Name, driverName, column.Name, newcolumn.GetColumnStmnt(driverName))
+	change_column := statements.ChangeColumnStmnt(tb.Name, ormdrivers.DriverName, column.Name, newcolumn.GetColumnStmnt())
 	_, err := db.Query(change_column)
 	if err != nil {
 		return false, err
