@@ -3,6 +3,7 @@
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![SqlORM](https://github.com/codeamenity/sqlorm/workflows/SqlORM/badge.svg)](https://github.com/codeamenity/sqlorm/actions?query=workflow%3ASqlORM)
 [![SqlORM](https://github.com/codeamenity/sqlorm/workflows/SqlORM/badge.svg?event=issues)](https://github.com/codeamenity/sqlorm/issues)
+[![GoDoc](https://godoc.org/github.com/codeamenity/sqlorm?status.svg)](https://godoc.org/github.com/codeamenity/sqlorm)
 
 This is an dynamic ORM for SQL databases like
 
