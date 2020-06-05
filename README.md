@@ -9,7 +9,7 @@ This is an dynamic ORM for SQL databases like
 - MySQL
 - mariadb
 
-Can be extended to other SQL Databases with minor changes
+Can be extended to other SQL Databases with adding statements in the statements module.
 
 ## License
 
