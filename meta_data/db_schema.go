@@ -3,7 +3,7 @@ package meta_data
 import (
 	"context"
 
-	"github.com/vishnu-chegondi/client"
+	"github.com/vishnu-chegondi/sqlorm/client"
 )
 
 // This returns all the tables in the db schema
