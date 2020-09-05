@@ -1,9 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"github.com/codeamenity/sqlorm/client"
+)
 
 func main() {
-	var name string
-	fmt.Scanf("%s", &name)
-	fmt.Printf("Hi %s", name)
+
+	client := new(client.MYSQL)
+	client.User = "mysqlorm"
+	client.Passwd = "MYSQLpassword1"
+	client.DBName = "mysqlorm"
+	client.Net = "tcp"
+	client.Addr = "localhost:3306"
+
+	db, _ := client.GetDb()
+	db.Ping()
 }
