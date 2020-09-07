@@ -8,5 +8,7 @@ github.com/codeamenity/mysql_ormdriver v0.0.0-20200905134358-c2c7ebf29f27 h1:WMv
 github.com/codeamenity/mysql_ormdriver v0.0.0-20200905134358-c2c7ebf29f27/go.mod h1:nX64GD2vXZD03/WGDEp14zV9rX5LpRr3kNCOLuJ+8wQ=
 github.com/codeamenity/mysql_ormdriver v0.0.0-20200905171539-eb12cc00dfd0 h1:yVCuz80q+3ZzSOT8kXQ+451wixS8gT/C3G3HDWHd0E4=
 github.com/codeamenity/mysql_ormdriver v0.0.0-20200905171539-eb12cc00dfd0/go.mod h1:nX64GD2vXZD03/WGDEp14zV9rX5LpRr3kNCOLuJ+8wQ=
+github.com/codeamenity/mysql_ormdriver v0.0.0-20200907101111-d30d41aab1ca h1:q+b3tLPkrhblzg2zfDD3qoCaL+RgIWBXSDGNyVTv9TQ=
+github.com/codeamenity/mysql_ormdriver v0.0.0-20200907101111-d30d41aab1ca/go.mod h1:nX64GD2vXZD03/WGDEp14zV9rX5LpRr3kNCOLuJ+8wQ=
 github.com/go-sql-driver/mysql v1.5.0 h1:ozyZYNQW3x3HtqT1jira07DN2PArx2v7/mN66gGcHOs=
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
