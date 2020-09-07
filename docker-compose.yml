@@ -1,0 +1,15 @@
+version: "3.5"
+services:
+
+  mariadb:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${RootPasswd}
+      MYSQL_DATABASE: ${DBName}
+      MYSQL_USER: ${User}
+      MYSQL_PASSWORD: ${Passwd}
+      MYSQL_INITDB_SKIP_TZINFO: 1
+
+  
