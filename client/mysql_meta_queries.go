@@ -26,6 +26,7 @@ type MYSQL struct {
 }
 
 func (db_driver *MYSQL) getDb() error {
+	var err error
 	if db_driver.User != "" {
 		os.Setenv("User", db_driver.User)
 	}
@@ -41,9 +42,11 @@ func (db_driver *MYSQL) getDb() error {
 	if db_driver.DBName != "" {
 		os.Setenv("DBName", db_driver.DBName)
 	}
-	db, err := mysql_connector.GetDb()
-	if err == nil {
-		db_driver.db = db
+	if err = db_driver.db.Ping(); err != nil {
+		db, err := mysql_connector.GetDb()
+		if err == nil {
+			db_driver.db = db
+		}
 	}
 	return err
 }
