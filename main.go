@@ -1,27 +1,29 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/codeamenity/sqlorm/client"
 	"github.com/codeamenity/sqlorm/migrations"
 	"github.com/codeamenity/sqlorm/models"
 )
 
 func main() {
-	client := client.MYSQL{}
-	client.User = "mysqlorm"
-	client.Passwd = "MYSQLpassword1"
-	client.DBName = "mysqlorm"
-	client.Net = "tcp"
-	client.Addr = "localhost:3306"
-	client.Db = client.GetDb()
+	client := &client.MYSQL{
+		User:   "mysqlorm",
+		Passwd: "MYSQLpassword1",
+		DBName: "mysqlorm",
+		Net:    "tcp",
+		Addr:   "localhost:3306",
+	}
 
 	TestTable := new(models.BaseTable)
 
 	migrations.OrmTables = append(migrations.OrmTables, TestTable)
-	// err := client.Ping()
-	// if err != nil {
-	// 	fmt.Print(err)
-	// }
+	err := client.Ping()
+	if err != nil {
+		fmt.Print(err)
+	}
 
 	migrations.MakeMigrations(client)
 }
